@@ -1,0 +1,49 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: s2i-binary
+spec:
+  workspaces:
+  - name: source
+  params:
+  - name: FROM_DIRECTORY
+    description: The sub-directory to use for the wildcard build
+    type: string
+    default: ""
+  - name: FROM_FILE
+    description: The file to use for the s2i binary build, can be a wildcard. If it resolves to multiple files the first one is used
+    type: string
+    default: ""
+  - name: NAMESPACE
+    type: string
+    description: The namespace holding the build configuration to be used.
+    default: ""
+  - name: BUILDCONFIG
+    type: string
+    description: Name of the build config to be used.
+  steps:
+  - name: s2i-build
+    image: image-registry.openshift-image-registry.svc:5000/openshift/cli:latest
+    script: |
+      #!/usr/bin/env bash
+
+      if [[ "$(params.FROM_DIRECTORY)" == "" && "$(params.FROM_FILE)" == "" ]]
+      then
+        echo "The task must have either FROM_DIRECTORY or FROM_FILE parameters set"
+        exit 1
+      fi
+
+      NAMESPACE=""
+      if [ "$(params.NAMESPACE)" != "" ];
+      then
+        NAMESPACE=" -n $(params.NAMESPACE)"
+      fi
+      if [ "$(params.FROM_DIRECTORY)" != "" ];
+      then
+        oc start-build $(params.BUILDCONFIG) --from-dir=$(params.FROM_DIRECTORY) ${NAMESPACE} --wait=true
+      else
+        FILE_PATH="$(ls $(params.FROM_FILE))"
+        echo "Using file ${FILE_PATH} for binary build"
+        oc start-build $(params.BUILDCONFIG) --from-file="${FILE_PATH}" ${NAMESPACE} --wait=true
+      fi
+

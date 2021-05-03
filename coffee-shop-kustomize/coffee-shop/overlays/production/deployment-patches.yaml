@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coffee-shop
+spec:
+  template:
+    spec:
+      containers:
+      - name: coffee-shop
+        image: nexus-registry-nexus.apps.cluster-emea.emea.example.opentlc.com/user19-coffee-shop:prod-2021-04-23-16-35-04
+

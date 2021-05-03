@@ -1,0 +1,11 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: barista
+spec:
+  template:
+    spec:
+      containers:
+      - name: user-container
+        image: nexus-registry-nexus.apps.cluster-emea.emea.example.opentlc.com/user19-barista:prod-2021-04-23-14-10-26
+

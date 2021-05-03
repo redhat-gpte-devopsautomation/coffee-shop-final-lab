@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coffee-shop-pipeline
+  namespace: user19-argocd
+spec:
+  destination:
+    namespace: user19-pipeline
+    server: https://kubernetes.default.svc
+  project: coffee-shop
+  source:
+    path: .
+    repoURL: https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-pipeline.git
+    targetRevision: HEAD
+

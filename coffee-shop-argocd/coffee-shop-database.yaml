@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: coffee-shop-database
+  namespace: user19-argocd
+spec:
+  destination:
+    namespace: user19-prod-coffeeshop
+    server: https://kubernetes.default.svc
+  project: coffee-shop
+  source:
+    chart: user19-coffee-shop-postgresql
+    helm:
+      parameters:
+      - forceString: true
+        name: fullnameOverride
+        value: coffee-shop-database
+      - forceString: true
+        name: openshiftApplicationName
+        value: coffee-shop
+      - forceString: true
+        name: credentials.database
+        value: coffeeshop
+      - forceString: true
+        name: credentials.username
+        value: coffee
+      - forceString: true
+        name: credentials.password
+        value: coffee
+    repoURL: https://nexus-nexus.apps.cluster-emea.emea.example.opentlc.com/repository/helm
+    targetRevision: 1.0.0

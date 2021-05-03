@@ -1,0 +1,206 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-and-deploy-quarkus-application
+spec:
+  params:
+  - name: OCP_USER
+    type: string
+    description: OCP_USER of the student
+    default: user19
+  - name: APP_NAME
+    type: string
+    description: The application deployment name
+    default: coffee-shop
+  - name: SOURCE_GIT_URL
+    type: string
+    description: The application git repository url
+    default: https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-source.git
+  - name: SOURCE_GIT_REVISION
+    type: string
+    default: master
+    description: The application git repository revision
+  - name: SOURCE_GIT_CONTEXT_DIR
+    type: string
+    default: coffee-shop
+    description: The subdirectory in the git repository
+  - name: KUSTOMIZE_GIT_URL
+    type: string
+    description: The kustomize git repository url
+    default: https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-kustomize.git
+  - name: KUSTOMIZE_GIT_REVISION
+    type: string
+    default: master
+    description: The kustomize git repository revision
+  - name: KUSTOMIZE_GIT_CONTEXT_DIR
+    type: string
+    default: coffee-shop
+    description: The subdirectory in the kustomize git repository
+  - name: KUSTOMIZE_GIT_FILE_NAME
+    type: string
+    default: overlays/production/deployment-patches.yaml
+    description: The YAML file in which to patch the image
+  - name: MAVEN_MIRROR_URL
+    type: string
+    description: Maven mirror for Maven Builds
+    default: http://nexus.nexus.svc:8081/repository/maven-all-public/
+  - name: NEXUS_REGISTRY_URL
+    type: string
+    description: External URL for the container registry to set the production image from
+    default: nexus-registry-nexus.apps.cluster-emea.emea.example.opentlc.com
+  - name: NAMESPACE_DEV
+    type: string
+    description: Namespace where the buildconfig is located
+    default: user19-dev-coffeeshop
+  workspaces:
+  - name: app-source
+  - name: maven-settings
+  - name: images-url
+  tasks:
+
+  - name: git-clone
+    taskRef:
+      kind: ClusterTask
+      name: git-clone
+    params:
+    - name: url
+      value: $(params.SOURCE_GIT_URL)
+    - name: revision
+      value: $(params.SOURCE_GIT_REVISION)
+    - name: deleteExisting
+      value: 'true'
+    workspaces:
+    - name: output
+      workspace: app-source
+
+  - name: generate-tag
+    taskRef:
+      kind: Task
+      name: generate-tag
+
+  - name: maven-build
+    runAfter:
+    - git-clone
+    - generate-tag
+    taskRef:
+      kind: Task
+      name: maven
+    params:
+    - name: MAVEN_IMAGE
+      value: registry.access.redhat.com/ubi8/openjdk-11:1.3
+    - name: CONTEXT_DIR
+      value: ./$(params.SOURCE_GIT_CONTEXT_DIR)
+    - name: GOALS
+      value:
+      - -DskipTests
+      - clean
+      - compile
+      - package
+    - name: MAVEN_MIRROR_URL
+      value: $(params.MAVEN_MIRROR_URL)
+    workspaces:
+    - name: source
+      workspace: app-source
+    - name: maven-settings
+      workspace: maven-settings
+
+  - name: build-image
+    runAfter:
+    - maven-build
+    taskRef:
+      kind: Task
+      name: s2i-binary
+    params:
+    - name: FROM_FILE
+      value: ./source/$(params.SOURCE_GIT_CONTEXT_DIR)/target/$(params.APP_NAME)-1.0-SNAPSHOT-runner.jar
+    - name: NAMESPACE
+      value: $(params.NAMESPACE_DEV)
+    - name: BUILDCONFIG
+      value: $(params.APP_NAME)
+    workspaces:
+    - name: source
+      workspace: app-source
+
+  - name: tag-image-for-development
+    runAfter:
+    - build-image
+    taskRef:
+      kind: ClusterTask
+      name: openshift-client
+    params:
+    - name: ARGS
+      value:
+      - tag
+      - $(params.NAMESPACE_DEV)/$(params.APP_NAME):latest
+      - $(params.NAMESPACE_DEV)/$(params.APP_NAME):dev-$(tasks.generate-tag.results.image-tag)
+
+  - name: set-image-in-dev
+    runAfter:
+    - tag-image-for-development
+    taskRef:
+      kind: ClusterTask
+      name: openshift-client
+    params:
+    - name: ARGS
+      value:
+      - set
+      - image
+      - deployment
+      - $(params.APP_NAME)
+      - $(params.APP_NAME)=image-registry.openshift-image-registry.svc:5000/$(params.NAMESPACE_DEV)/$(params.APP_NAME):dev-$(tasks.generate-tag.results.image-tag)
+      - -n $(params.NAMESPACE_DEV)
+
+  - name: tag-image-for-production
+    runAfter:
+    - set-image-in-dev
+    taskRef:
+      kind: ClusterTask
+      name: openshift-client
+    params:
+    - name: ARGS
+      value:
+      - tag
+      - $(params.NAMESPACE_DEV)/$(params.APP_NAME):dev-$(tasks.generate-tag.results.image-tag)
+      - $(params.NAMESPACE_DEV)/$(params.APP_NAME):prod-$(tasks.generate-tag.results.image-tag)
+
+  - name: publish-image
+    runAfter:
+    - tag-image-for-production
+    taskRef:
+      kind: ClusterTask
+      name: skopeo-copy
+    params:
+    - name: srcImageURL
+      value: docker://image-registry.openshift-image-registry.svc:5000/$(params.NAMESPACE_DEV)/$(params.APP_NAME):prod-$(tasks.generate-tag.results.image-tag)
+    - name: srcTLSverify
+      value: 'false'
+    - name: destImageURL
+      value: docker://nexus-registry.nexus.svc:5000/$(params.OCP_USER)-$(params.APP_NAME):prod-$(tasks.generate-tag.results.image-tag)
+    - name: destTLSverify
+      value: 'false'
+    workspaces:
+    - name: images-url
+      workspace: images-url
+
+  - name: update-kustomize-repo
+    runAfter:
+    - publish-image
+    taskRef:
+      kind: Task
+      name: update-kustomize-repo
+    params:
+    - name: gitRepositoryUrl
+      value: $(params.KUSTOMIZE_GIT_URL)
+    - name: gitRepositoryRevision
+      value: $(params.KUSTOMIZE_GIT_REVISION)
+    - name: gitPath
+      value: $(params.KUSTOMIZE_GIT_CONTEXT_DIR)
+    - name: fileName
+      value: $(params.KUSTOMIZE_GIT_FILE_NAME)
+    - name: image
+      value: $(params.NEXUS_REGISTRY_URL)/$(params.OCP_USER)-$(params.APP_NAME)
+    - name: imageTag
+      value: prod-$(tasks.generate-tag.results.image-tag)
+    - name: verbose
+      value: 'true'
+

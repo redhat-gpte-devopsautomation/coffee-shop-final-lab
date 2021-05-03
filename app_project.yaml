@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: coffee-shop
+  namespace: user19-argocd
+spec:
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+  description: ArgoCD project for Coffee Shop Application (user19)
+  destinations:
+  - namespace: user19-prod-coffeeshop
+    server: https://kubernetes.default.svc
+  - namespace: user19-argocd
+    server: https://kubernetes.default.svc
+  - namespace: user19-pipeline
+    server: https://kubernetes.default.svc
+  namespaceResourceBlacklist:
+  - group: tekton.dev
+    kind: TaskRun
+  - group: tekton.dev
+    kind: PipelineRun
+  sourceRepos:
+  - https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-kustomize.git
+  - https://nexus-nexus.apps.cluster-emea.emea.example.opentlc.com/repository/helm
+  - https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-argocd.git
+  - https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-pipeline.git

@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: barista
+  namespace: user19-argocd
+spec:
+  destination:
+    namespace: user19-prod-coffeeshop
+    server: https://kubernetes.default.svc
+  project: coffee-shop
+  source:
+    path: barista/overlays/production
+    repoURL: https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-kustomize.git
+    targetRevision: HEAD
