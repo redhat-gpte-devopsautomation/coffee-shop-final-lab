@@ -5,7 +5,9 @@ kind: Kustomization
 resources:
 - ./coffee-shop-database.yaml
 - ./coffee-shop.yaml
+- ./coffee-shop-dev.yaml
 - ./barista.yaml
+- ./barista-dev.yaml
 - ./coffee-shop-pipeline.yaml
 
 patches:
