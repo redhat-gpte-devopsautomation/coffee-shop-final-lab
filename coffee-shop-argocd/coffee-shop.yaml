@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: coffee-shop
-  namespace: wk12-prod-coffeeshop
+  namespace: wk12-argocd
 spec:
   destination:
     server: https://kubernetes.default.svc
