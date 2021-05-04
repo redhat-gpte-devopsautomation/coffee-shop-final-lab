@@ -136,7 +136,7 @@ spec:
 
   - name: tag-image-for-production
     runAfter:
-    - set-image-in-dev
+    - tag-image-for-development
     taskRef:
       kind: ClusterTask
       name: openshift-client
