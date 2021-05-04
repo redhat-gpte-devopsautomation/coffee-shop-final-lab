@@ -10,5 +10,5 @@ spec:
   project: coffee-shop
   source:
     path: ./coffee-shop-kustomize/barista/overlays/production
-    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/wkulhane-redhat.com-$GUID/coffee-shop-final-lab.git
+    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/wkulhane-redhat.com-wk12/coffee-shop-final-lab.git
     targetRevision: HEAD
