@@ -159,7 +159,7 @@ spec:
     - name: srcTLSverify
       value: 'false'
     - name: destImageURL
-      value: docker://nexus-registry.nexus.svc:5000/$(params.OCP_USER)-$(params.APP_NAME):prod-$(tasks.generate-tag.results.image-tag)
+      value: docker://homework-nexus-registry.gpte-hw-cicd.svc:5000/$(params.OCP_USER)-$(params.APP_NAME):prod-$(tasks.generate-tag.results.image-tag)
     - name: destTLSverify
       value: 'false'
     workspaces:
