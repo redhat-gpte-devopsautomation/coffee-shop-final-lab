@@ -7,5 +7,5 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: nexus-registry-nexus.apps.cluster-emea.emea.example.opentlc.com/user19-coffee-shop:prod-2021-04-23-16-35-04
+        image: nexus-registry-nexus.apps.cluster-emea.emea.example.opentlc.com/wk12-coffee-shop:prod-2021-04-23-16-35-04
 

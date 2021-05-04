@@ -7,5 +7,5 @@ spec:
     spec:
       containers:
       - name: user-container
-        image: image-registry.openshift-image-registry.svc:5000/user19-dev-coffeeshop/barista:latest
+        image: image-registry.openshift-image-registry.svc:5000/wk12-dev-coffeeshop/barista:latest
 
