@@ -7,6 +7,7 @@ bases:
 
 resources:
 - ./buildconfig.yaml
+- ./imagestream.yaml
 
 patches:
 - ./deployment-patches.yaml
