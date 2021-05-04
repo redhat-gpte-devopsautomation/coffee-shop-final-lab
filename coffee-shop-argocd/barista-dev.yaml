@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: barista-dev
+  namespace: wk12-argocd
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wk12-dev-coffeeshop
+  project: coffee-shop
+  source:
+    path: ./coffee-shop-kustomize/barista/overlays/development
+    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/wkulhane-redhat.com-wk12/coffee-shop-final-lab.git
+    targetRevision: HEAD
