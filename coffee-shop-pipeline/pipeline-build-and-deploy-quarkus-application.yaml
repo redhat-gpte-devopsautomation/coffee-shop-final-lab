@@ -134,22 +134,6 @@ spec:
       - $(params.NAMESPACE_DEV)/$(params.APP_NAME):latest
       - $(params.NAMESPACE_DEV)/$(params.APP_NAME):dev-$(tasks.generate-tag.results.image-tag)
 
-  - name: set-image-in-dev
-    runAfter:
-    - tag-image-for-development
-    taskRef:
-      kind: ClusterTask
-      name: openshift-client
-    params:
-    - name: ARGS
-      value:
-      - set
-      - image
-      - deployment
-      - $(params.APP_NAME)
-      - $(params.APP_NAME)=image-registry.openshift-image-registry.svc:5000/$(params.NAMESPACE_DEV)/$(params.APP_NAME):dev-$(tasks.generate-tag.results.image-tag)
-      - -n $(params.NAMESPACE_DEV)
-
   - name: tag-image-for-production
     runAfter:
     - set-image-in-dev
