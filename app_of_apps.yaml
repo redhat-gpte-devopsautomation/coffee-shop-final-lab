@@ -9,7 +9,7 @@ spec:
     server: https://kubernetes.default.svc
   project: coffee-shop
   source:
-    path: /coffee-shop-argocd
+    path: ./coffee-shop-argocd
     repoURL: https://homework-gitea.apps.shared-dev4.dev4.openshift.opentlc.com/wkulhane-redhat.com/coffee-shop-final-lab.git
     targetRevision: HEAD
   syncPolicy:
