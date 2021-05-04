@@ -7,7 +7,7 @@ spec:
   - name: OCP_USER
     type: string
     description: OCP_USER of the student
-    default: user19
+    default: wk12
   - name: APP_NAME
     type: string
     description: The application deployment name
@@ -15,7 +15,7 @@ spec:
   - name: SOURCE_GIT_URL
     type: string
     description: The application git repository url
-    default: https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-source.git
+    default: https://github.com/redhat-gpte-devopsautomation/coffee-shop-source
   - name: SOURCE_GIT_REVISION
     type: string
     default: master
@@ -27,14 +27,14 @@ spec:
   - name: KUSTOMIZE_GIT_URL
     type: string
     description: The kustomize git repository url
-    default: https://gitea.apps.cluster-emea.emea.example.opentlc.com/user19/coffee-shop-kustomize.git
+    default: http://homework-gitea.gpte-hw-cicd.svc:3000/wkulhane-redhat.com-wk12/coffee-shop-final-lab.git
   - name: KUSTOMIZE_GIT_REVISION
     type: string
     default: master
     description: The kustomize git repository revision
   - name: KUSTOMIZE_GIT_CONTEXT_DIR
     type: string
-    default: coffee-shop
+    default: coffee-shop-kustomize/coffee-shop
     description: The subdirectory in the kustomize git repository
   - name: KUSTOMIZE_GIT_FILE_NAME
     type: string
@@ -43,15 +43,15 @@ spec:
   - name: MAVEN_MIRROR_URL
     type: string
     description: Maven mirror for Maven Builds
-    default: http://nexus.nexus.svc:8081/repository/maven-all-public/
+    default: http://nexus.gpte-hw-cicd.svc:8081/repository/maven-all-public/
   - name: NEXUS_REGISTRY_URL
     type: string
     description: External URL for the container registry to set the production image from
-    default: nexus-registry-nexus.apps.cluster-emea.emea.example.opentlc.com
+    default: homework-nexus-registry.apps.shared-dev4.dev4.openshift.opentlc.com
   - name: NAMESPACE_DEV
     type: string
     description: Namespace where the buildconfig is located
-    default: user19-dev-coffeeshop
+    default: wk12-dev-coffeeshop
   workspaces:
   - name: app-source
   - name: maven-settings
