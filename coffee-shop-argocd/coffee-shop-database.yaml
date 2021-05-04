@@ -2,14 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: coffee-shop-database
-  namespace: user19-argocd
+  namespace: wk12-prod-coffeeshop
 spec:
   destination:
-    namespace: user19-prod-coffeeshop
     server: https://kubernetes.default.svc
+    namespace: wk12-prod-coffeeshop
   project: coffee-shop
   source:
-    chart: user19-coffee-shop-postgresql
+    chart: coffee-shop-postgresql
     helm:
       parameters:
       - forceString: true
@@ -27,5 +27,5 @@ spec:
       - forceString: true
         name: credentials.password
         value: coffee
-    repoURL: https://nexus-nexus.apps.cluster-emea.emea.example.opentlc.com/repository/helm
+    repoURL: homework-nexus.apps.shared-dev4.dev4.openshift.opentlc.com/repository/helm
     targetRevision: 1.0.0
