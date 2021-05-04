@@ -8,8 +8,6 @@ bases:
 resources:
 - ./buildconfig.yaml
 
-namespace: user19-dev-coffeeshop
-
 patches:
 - ./knative-service-patch.yaml
 
