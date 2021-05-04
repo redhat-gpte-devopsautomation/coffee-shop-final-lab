@@ -27,5 +27,5 @@ spec:
       - forceString: true
         name: credentials.password
         value: coffee
-    repoURL: homework-nexus.apps.shared-dev4.dev4.openshift.opentlc.com/repository/helm
+    repoURL: https://homework-nexus.apps.shared-dev4.dev4.openshift.opentlc.com/repository/helm
     targetRevision: 1.0.0
