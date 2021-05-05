@@ -5,9 +5,7 @@ kind: Kustomization
 resources:
 - ./coffee-shop-database.yaml
 - ./coffee-shop.yaml
-- ./coffee-shop-dev.yaml
 - ./barista.yaml
-- ./barista-dev.yaml
 - ./coffee-shop-pipeline.yaml
 
 patches:
@@ -16,22 +14,3 @@ patches:
     group: argoproj.io
     version: v1alpha1
     kind: Application
-    name: barista
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: coffee-shop-database
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: coffee-shop
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: coffee-shop-app-of-apps
