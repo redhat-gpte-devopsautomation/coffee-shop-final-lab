@@ -7,7 +7,7 @@ spec:
   - name: OCP_USER
     type: string
     description: OCP_USER of the student
-    default: wk12
+    default: GUID
   - name: APP_NAME
     type: string
     description: The application deployment name
@@ -27,7 +27,7 @@ spec:
   - name: KUSTOMIZE_GIT_URL
     type: string
     description: The kustomize git repository url
-    default: http://homework-gitea.gpte-hw-cicd.svc:3000/wkulhane-redhat.com-wk12/coffee-shop-final-lab.git
+    default: http://homework-gitea.gpte-hw-cicd.svc:3000/OCP_USER-GUID/coffee-shop-final-lab.git
   - name: KUSTOMIZE_GIT_REVISION
     type: string
     default: master
@@ -51,7 +51,7 @@ spec:
   - name: NAMESPACE_DEV
     type: string
     description: Namespace where the buildconfig is located
-    default: wk12-dev-coffeeshop
+    default: GUID-dev-coffeeshop
   workspaces:
   - name: app-source
   - name: maven-settings

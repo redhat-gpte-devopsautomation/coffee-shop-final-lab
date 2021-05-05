@@ -7,5 +7,5 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: image-registry.openshift-image-registry.svc:5000/wk12-dev-coffeeshop/coffee-shop:latest
+        image: image-registry.openshift-image-registry.svc:5000/GUID-dev-coffeeshop/coffee-shop:latest
 

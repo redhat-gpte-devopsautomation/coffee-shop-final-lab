@@ -1,0 +1,4 @@
+securityContext:
+  runAsUser: 185
+  fsGroup: 0
+

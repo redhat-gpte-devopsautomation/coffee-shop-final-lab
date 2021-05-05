@@ -2,14 +2,14 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: coffee-shop-pipeline
-  namespace: wk12-argocd
+  namespace: GUID-argocd
 spec:
   destination:
-    namespace: wk12-pipeline
+    namespace: GUID-pipeline
     server: https://kubernetes.default.svc
   project: coffee-shop
   source:
     path: ./coffee-shop-pipeline
-    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/wkulhane-redhat.com-wk12/coffee-shop-final-lab.git
+    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/OCP_USER-GUID/coffee-shop-final-lab.git
     targetRevision: HEAD
 

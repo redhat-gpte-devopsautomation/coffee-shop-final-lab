@@ -12,5 +12,3 @@ release.properties
 *.log
 *.jar
 *run*
-pod-template.yaml
-
