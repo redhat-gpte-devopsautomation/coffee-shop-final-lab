@@ -10,6 +10,6 @@ spec:
   project: coffee-shop
   source:
     path: ./coffee-shop-pipeline
-    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/OCP_USER-GUID/coffee-shop-final-lab.git
+    repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/OCP_USERNAME-GUID/coffee-shop-final-lab.git
     targetRevision: HEAD
 
