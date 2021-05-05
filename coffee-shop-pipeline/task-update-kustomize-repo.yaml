@@ -86,4 +86,3 @@ spec:
       git add .
       git commit --allow-empty -m "[OpenShift Pipeline] Updating $(params.fileName) image to $(params.image):$(params.imageTag)"
       git push origin "$(params.gitRepositoryRevision)"
-

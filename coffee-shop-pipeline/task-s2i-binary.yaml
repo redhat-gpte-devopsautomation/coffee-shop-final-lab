@@ -46,4 +46,3 @@ spec:
         echo "Using file ${FILE_PATH} for binary build"
         oc start-build $(params.BUILDCONFIG) --from-file="${FILE_PATH}" ${NAMESPACE} --wait=true
       fi
-

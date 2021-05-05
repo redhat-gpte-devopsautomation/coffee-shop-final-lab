@@ -17,4 +17,3 @@ spec:
       date +"%Y-%m-%d-%H-%M-%S" | tee /tmp/date.txt
       # Trim the string to remove newline from the end
       tr --delete '\n' </tmp/date.txt >$(results.image-tag.path)
-
