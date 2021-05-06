@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: coffee-shop-database
+  name: coffee-shop-database-dev
   namespace: GUID-argocd
 spec:
   destination:
