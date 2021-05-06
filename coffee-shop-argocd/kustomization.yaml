@@ -15,3 +15,23 @@ patches:
     group: argoproj.io
     version: v1alpha1
     kind: Application
+    name: coffee-shop-database-prod
+- path: ./syncpolicy-patch.yaml
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: coffee-shop
+- path: ./syncpolicy-patch.yaml
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: barista
+- path: ./syncpolicy-patch.yaml
+  target:
+    group: argoproj.io
+    version: v1alpha1
+    kind: Application
+    name: coffee-shop-pipeline
+
