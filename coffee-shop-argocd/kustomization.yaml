@@ -3,8 +3,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-- ./coffee-shop-database-dev.yaml
-- ./coffee-shop-database-prod.yaml
+- ./coffee-shop-database.yaml
 - ./coffee-shop.yaml
 - ./barista.yaml
 - ./coffee-shop-pipeline.yaml
@@ -15,23 +14,3 @@ patches:
     group: argoproj.io
     version: v1alpha1
     kind: Application
-    name: coffee-shop-database-prod
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: coffee-shop
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: barista
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
-    name: coffee-shop-pipeline
-
