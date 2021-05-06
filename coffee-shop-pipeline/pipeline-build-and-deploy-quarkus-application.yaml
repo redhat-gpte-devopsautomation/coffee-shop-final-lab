@@ -43,7 +43,7 @@ spec:
   - name: MAVEN_MIRROR_URL
     type: string
     description: Maven mirror for Maven Builds
-    default: http://nexus.gpte-hw-cicd.svc:8081/repository/maven-all-public/
+    default: http://homework-nexus.gpte-hw-cicd.svc:8081/repository/maven-all-public/
   - name: NEXUS_REGISTRY_URL
     type: string
     description: External URL for the container registry to set the production image from
