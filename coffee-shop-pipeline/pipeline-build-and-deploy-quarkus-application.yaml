@@ -204,3 +204,16 @@ spec:
     - name: verbose
       value: 'true'
 
+  - name: sync-argocd
+    runAfter:
+    - update-kustomize-repo
+    taskRef:
+      kind: Task
+      name: argocd-task-sync-and-wait
+    params:
+    - name: application-name
+      value: $(params.APP_NAME)
+    - name: argocd-version
+      value: v2.0.1
+    - name: flags
+      value: --insecure
