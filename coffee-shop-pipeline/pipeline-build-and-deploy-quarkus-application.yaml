@@ -52,6 +52,10 @@ spec:
     type: string
     description: Namespace where the buildconfig is located
     default: GUID-dev-coffeeshop
+  results:
+  - name: image-tag
+    description: The Production Image Tag
+    value: prod-$(tasks.generate-tag.results.image-tag)
   workspaces:
   - name: app-source
   - name: maven-settings
