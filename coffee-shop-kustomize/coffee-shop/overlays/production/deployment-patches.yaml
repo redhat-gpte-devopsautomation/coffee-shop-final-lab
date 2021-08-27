@@ -7,5 +7,5 @@ spec:
     spec:
       containers:
       - name: coffee-shop
-        image: NEXUS_REGISTRY_HOSTNAME/GUID-coffee-shop:prod-2021-04-23-16-35-04
+        image: quay.io/gpte-devops-automation/coffee-shop-placeholder:latest
 

@@ -7,5 +7,5 @@ spec:
     spec:
       containers:
       - name: user-container
-        image: image-registry.openshift-image-registry.svc:5000/GUID-dev-coffeeshop/barista:latest
+        image: quay.io/gpte-devops-automation/barista-placeholder:latest
 
