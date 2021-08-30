@@ -69,7 +69,7 @@ spec:
         echo "**** Updating $(params.fileName) image to $(params.image):$(params.imageTag)"
       fi
 
-      sed -i "s#$(params.image):[a-zA-Z0-9-]\\+#$(params.image):$(params.imageTag)#" ./$(params.gitPath)/$(params.fileName)
+      sed -i "s#image:.*#image: $(params.image):$(params.imageTag)#g" ./$(params.gitPath)/$(params.fileName)
 
   - name: commit-push-changes
     image: alpine/git:v2.26.2
