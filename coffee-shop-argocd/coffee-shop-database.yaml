@@ -29,3 +29,7 @@ spec:
         value: coffee
     repoURL: http://homework-nexus.gpte-hw-cicd.svc:8081/repository/helm
     targetRevision: 1.0.0
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
