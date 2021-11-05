@@ -8,9 +8,9 @@ resources:
 - ./barista.yaml
 - ./coffee-shop-pipeline.yaml
 
-patches:
-- path: ./syncpolicy-patch.yaml
-  target:
-    group: argoproj.io
-    version: v1alpha1
-    kind: Application
+#patches:
+#- path: ./syncpolicy-patch.yaml
+#  target:
+#    group: argoproj.io
+#    version: v1alpha1
+#    kind: Application
