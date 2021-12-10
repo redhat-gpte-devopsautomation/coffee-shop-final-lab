@@ -1,13 +1,15 @@
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: argocd-task-sync-and-wait
+  name: argocd-sync-and-wait
   labels:
     app.kubernetes.io/version: "0.1"
   annotations:
     tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/categories: Deployment
     tekton.dev/tags: deploy
     tekton.dev/displayName: "argocd"
+    tekton.dev/platforms: "linux/amd64"
 spec:
   description: >-
     This task syncs (deploys) an Argo CD application and waits for it to be healthy.
@@ -21,6 +23,9 @@ spec:
     - name: revision
       description: the revision to sync to
       default: HEAD
+    - name: wait
+      description: Set to true to wait for ArgoCD to finish whatever it's doing. Set to false to exit after Sync has completed.
+      default: "true"
     - name: flags
       default: --
     - name: argocd-version
@@ -32,17 +37,13 @@ spec:
       - secretRef:
           name: argocd-env-secret  # used for authentication (username/password or auth token)
   steps:
-    - name: login
+    - name: argocd-sync
       image: docker.io/argoproj/argocd:$(params.argocd-version)
       script: |
-        if [ -z $ARGOCD_AUTH_TOKEN ]; then
-          yes | argocd login $ARGOCD_SERVER --username=$ARGOCD_USERNAME --password=$ARGOCD_PASSWORD;
+        if [ -z "$ARGOCD_AUTH_TOKEN" ]; then
+          yes | argocd login "$ARGOCD_SERVER" --username="$ARGOCD_USERNAME" --password="$ARGOCD_PASSWORD";
         fi
-    - name: sync
-      image: docker.io/argoproj/argocd:$(params.argocd-version)
-      script: |
-        argocd app sync $(params.application-name) --revision $(params.revision) $(params.flags)
-    - name: wait
-      image: docker.io/argoproj/argocd:$(params.argocd-version)
-      script: |
-        argocd app wait $(params.application-name) --health $(params.flags)
+        argocd app sync "$(params.application-name)" --revision "$(params.revision)" "$(params.flags)"
+        if [ "$(params.wait)" = "true" ]; then
+          argocd app wait "$(params.application-name)" --health "$(params.flags)"
+        fi

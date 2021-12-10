@@ -213,11 +213,13 @@ spec:
     - update-kustomize-repo
     taskRef:
       kind: Task
-      name: argocd-task-sync-and-wait
+      name: argocd-sync-and-wait
     params:
     - name: application-name
       value: $(params.APP_NAME)
     - name: argocd-version
-      value: v2.0.1
+      value: v2.1.7
     - name: flags
       value: --insecure
+    - name: wait
+      value: "false"
