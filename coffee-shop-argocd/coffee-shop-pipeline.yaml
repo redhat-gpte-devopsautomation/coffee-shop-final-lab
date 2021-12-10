@@ -12,7 +12,3 @@ spec:
     path: ./coffee-shop-pipeline
     repoURL: http://homework-gitea.gpte-hw-cicd.svc:3000/OCP_USERNAME-GUID/coffee-shop-final-lab.git
     targetRevision: HEAD
-  syncPolicy:
-    automated:
-      selfHeal: true
-      prune: true
