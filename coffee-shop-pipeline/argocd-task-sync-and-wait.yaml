@@ -24,7 +24,7 @@ spec:
     - name: flags
       default: --
     - name: argocd-version
-      default: v1.0.2
+      default: v2.1.7
   stepTemplate:
     envFrom:
       - configMapRef:
