@@ -129,7 +129,7 @@ spec:
     runAfter:
     - build-image
     taskRef:
-      kind: ClusterTask
+      kind: Task
       name: openshift-client
     params:
     - name: ARGS
@@ -142,7 +142,7 @@ spec:
     runAfter:
     - tag-image-for-development
     taskRef:
-      kind: ClusterTask
+      kind: Task
       name: openshift-client
     params:
     - name: ARGS
@@ -158,7 +158,7 @@ spec:
     runAfter:
     - set-image-in-dev
     taskRef:
-      kind: ClusterTask
+      kind: Task
       name: openshift-client
     params:
     - name: ARGS
