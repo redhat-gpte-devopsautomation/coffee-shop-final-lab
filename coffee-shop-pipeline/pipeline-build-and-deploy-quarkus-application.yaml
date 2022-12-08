@@ -116,7 +116,7 @@ spec:
       name: s2i-binary
     params:
     - name: FROM_FILE
-      value: ./source/$(params.SOURCE_GIT_CONTEXT_DIR)/target/$(params.APP_NAME)-1.0-SNAPSHOT-runner.jar
+      value: /workspace/source/$(params.SOURCE_GIT_CONTEXT_DIR)/target/$(params.APP_NAME)-1.0-SNAPSHOT-runner.jar
     - name: NAMESPACE
       value: $(params.NAMESPACE_DEV)
     - name: BUILDCONFIG
